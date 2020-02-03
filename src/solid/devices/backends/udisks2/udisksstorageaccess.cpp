@@ -13,8 +13,6 @@
 #include <QDBusConnection>
 #include <QDir>
 #include <QDBusInterface>
-#include <QGuiApplication>
-#include <QWindow>
 
 using namespace Solid::Backends::UDisks2;
 
@@ -335,13 +333,7 @@ bool StorageAccess::requestPassphrase()
 
     QDBusConnection::sessionBus().registerObject(m_lastReturnObject, this, QDBusConnection::ExportScriptableSlots);
 
-    // TODO: this only works on X11, Wayland doesn't have global window ids.
-    // Passing ids to other processes doesn't make any sense
-    auto activeWindow = QGuiApplication::focusWindow();
     uint wId = 0;
-    if (activeWindow != nullptr) {
-        wId = (uint)activeWindow->winId();
-    }
 
     QString appId = QCoreApplication::applicationName();
 

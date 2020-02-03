@@ -19,7 +19,6 @@
 #include <solid/genericinterface.h>
 #include <solid/device.h>
 
-#include <QMimeDatabase>
 
 
 
