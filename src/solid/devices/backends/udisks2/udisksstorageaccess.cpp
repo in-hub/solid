@@ -44,7 +44,7 @@ void StorageAccess::connectDBusSignals()
 
 bool StorageAccess::isLuksDevice() const
 {
-    return m_device->isEncryptedContainer(); // encrypted device
+    return false;
 }
 
 bool StorageAccess::isAccessible() const
@@ -111,7 +111,7 @@ bool StorageAccess::setup()
     m_setupInProgress = true;
     m_device->broadcastActionRequested("setup");
 
-    if (m_device->isEncryptedContainer() && clearTextPath().isEmpty()) {
+    if (false) {
         return requestPassphrase();
     } else {
         return mount();

@@ -66,10 +66,12 @@ Solid::StorageVolume::UsageType StorageVolume::usage() const
         return Solid::StorageVolume::FileSystem;
     } else if (m_device->isPartitionTable()) {
         return Solid::StorageVolume::PartitionTable;
+#if 0
     } else if (usage == "raid") {
         return Solid::StorageVolume::Raid;
     } else if (m_device->isEncryptedContainer()) {
         return Solid::StorageVolume::Encrypted;
+#endif
     } else if (usage == "unused" || usage.isEmpty()) {
         return Solid::StorageVolume::Unused;
     } else {

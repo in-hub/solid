@@ -66,8 +66,10 @@ public:
     bool mightBeOpticalDisc() const;
 #endif
     bool isMounted() const;
+#if 0
     bool isEncryptedContainer() const;
     bool isEncryptedCleartext() const;
+#endif
     bool isRoot() const;
     bool isSwap() const;
     bool isLoop() const;

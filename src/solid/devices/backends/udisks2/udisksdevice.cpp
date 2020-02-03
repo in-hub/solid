@@ -193,6 +193,7 @@ QStringList Device::emblems() const
 {
     QStringList res;
 
+#if 0
     if (queryDeviceInterface(Solid::DeviceInterface::StorageAccess)) {
         const UDisks2::StorageAccess accessIface(const_cast<Device *>(this));
         if (accessIface.isAccessible()) {
@@ -207,6 +208,7 @@ QStringList Device::emblems() const
             }
         }
     }
+#endif
 
     return res;
 }
@@ -546,12 +548,16 @@ QString Device::volumeDescription() const
     const bool drive_is_hotpluggable = storageDrive.isHotpluggable();
 
     QString size_str = formatByteSize(storageVolume.size());
+#if 0
     if (isEncryptedContainer()) {
         if (storageVolume.size() > 0) {
             description = tr("%1 Encrypted Drive", "%1 is the size").arg(size_str);
         } else {
             description = tr("Encrypted Drive");
         }
+#else
+    if (0) {
+#endif
     } else if (drive_type == Solid::StorageDrive::HardDisk && !drive_is_removable) {
         if (storageVolume.size() > 0) {
             if (drive_is_hotpluggable) {
@@ -774,7 +780,7 @@ bool Device::isStorageVolume() const
 
 bool Device::isStorageAccess() const
 {
-    return hasInterface(QStringLiteral(UD2_DBUS_INTERFACE_FILESYSTEM)) || isEncryptedContainer();
+    return hasInterface(QStringLiteral(UD2_DBUS_INTERFACE_FILESYSTEM));
 }
 
 bool Device::isDrive() const
@@ -817,6 +823,7 @@ bool Device::isMounted() const
     return mountPoints.isValid() && !qdbus_cast<QByteArrayList>(mountPoints).isEmpty();
 }
 
+#if 0
 bool Device::isEncryptedContainer() const
 {
     return hasInterface(QStringLiteral(UD2_DBUS_INTERFACE_ENCRYPTED));
@@ -831,6 +838,7 @@ bool Device::isEncryptedCleartext() const
         return true;
     }
 }
+#endif
 
 bool Device::isRoot() const
 {

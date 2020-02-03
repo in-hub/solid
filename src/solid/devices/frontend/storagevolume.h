@@ -40,11 +40,10 @@ public:
      *
      * - FileSystem : A mountable filesystem volume
      * - PartitionTable : A volume containing a partition table
-     * - Raid : A volume member of a raid set (not mountable)
      * - Other : A not mountable volume (like a swap partition)
      * - Unused : An unused or free volume
      */
-    enum UsageType { Other = 0, Unused = 1, FileSystem = 2, PartitionTable = 3, Raid = 4, Encrypted = 5 };
+    enum UsageType { Other = 0, Unused = 1, FileSystem = 2, PartitionTable = 3 };
     Q_ENUM(UsageType)
 
 private:
