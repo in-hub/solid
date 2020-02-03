@@ -11,9 +11,8 @@
 #include "udisksblock.h"
 #include "udisksdeviceinterface.h"
 #include "udisksstoragevolume.h"
-#include "udisksopticaldisc.h"
-#include "udisksopticaldrive.h"
 #include "udisksstorageaccess.h"
+#include "udisksstoragedrive.h"
 #include "udisksgenericinterface.h"
 
 #include <solid/genericinterface.h>
@@ -163,14 +162,8 @@ QObject *Device::createDeviceInterface(const Solid::DeviceInterface::Type &type)
     case Solid::DeviceInterface::StorageDrive:
         iface = new StorageDrive(this);
         break;
-    case Solid::DeviceInterface::OpticalDrive:
-        iface = new OpticalDrive(this);
-        break;
     case Solid::DeviceInterface::StorageVolume:
         iface = new StorageVolume(this);
-        break;
-    case Solid::DeviceInterface::OpticalDisc:
-        iface = new OpticalDisc(this);
         break;
     default:
         break;
@@ -191,10 +184,6 @@ bool Device::queryDeviceInterface(const Solid::DeviceInterface::Type &type) cons
         return isStorageAccess();
     case Solid::DeviceInterface::StorageDrive:
         return isDrive();
-    case Solid::DeviceInterface::OpticalDrive:
-        return isOpticalDrive();
-    case Solid::DeviceInterface::OpticalDisc:
-        return isOpticalDisc();
     default:
         return false;
     }
@@ -264,6 +253,7 @@ QString Device::storageDescription() const
     Solid::StorageDrive::DriveType drive_type = storageDrive.driveType();
     const bool drive_is_hotpluggable = storageDrive.isHotpluggable();
 
+#if 0
     if (drive_type == Solid::StorageDrive::CdromDrive) {
         const UDisks2::OpticalDrive opticalDrive(const_cast<Device *>(this));
         Solid::OpticalDrive::MediumTypes mediumTypes = opticalDrive.supportedMedia();
@@ -347,6 +337,7 @@ QString Device::storageDescription() const
 
         return description;
     }
+#endif
 
     const bool drive_is_removable = storageDrive.isRemovable();
 
@@ -415,6 +406,7 @@ QString Device::volumeDescription() const
     const UDisks2::StorageDrive storageDrive(&storageDevice);
     Solid::StorageDrive::DriveType drive_type = storageDrive.driveType();
 
+#if 0
     // Handle media in optical drives
     if (drive_type == Solid::StorageDrive::CdromDrive) {
         const UDisks2::OpticalDisc disc(const_cast<Device *>(this));
@@ -548,6 +540,7 @@ QString Device::volumeDescription() const
 
         return description;
     }
+#endif
 
     const bool drive_is_removable = storageDrive.isRemovable();
     const bool drive_is_hotpluggable = storageDrive.isHotpluggable();
@@ -573,8 +566,6 @@ QString Device::volumeDescription() const
                 description = tr("Hard Drive");
             }
         }
-    } else if (drive_type == Solid::StorageDrive::Floppy) {
-        description = tr("Floppy Disk");
     } else {
         if (drive_is_removable) {
             description = tr("%1 Removable Media", "%1 is the size").arg(size_str);
@@ -595,13 +586,6 @@ QString Device::icon() const
     } else if (isRoot()) {
         return QStringLiteral("drive-harddisk-root");
     } else if (isLoop()) {
-        const QString backingFile = prop("BackingFile").toString();
-        if (!backingFile.isEmpty()) {
-            QMimeType type = QMimeDatabase().mimeTypeForFile(backingFile);
-            if (!type.isDefault()) {
-                return type.iconName();
-            }
-        }
         return QStringLiteral("drive-harddisk");
     } else if (isSwap()) {
         return "drive-harddisk";
@@ -609,9 +593,7 @@ QString Device::icon() const
         const bool isRemovable = prop("Removable").toBool();
         const QString conn = prop("ConnectionBus").toString();
 
-        if (isOpticalDrive()) {
-            return "drive-optical";
-        } else if (isRemovable && !prop("Optical").toBool()) {
+        if (isRemovable && !prop("Optical").toBool()) {
             if (conn == "usb") {
                 return "drive-removable-media-usb";
             } else {
@@ -631,6 +613,7 @@ QString Device::icon() const
 
         if (!media.isEmpty()) {
             if (drive.prop("Optical").toBool()) {    // optical stuff
+#if 0
                 bool isWritable = drive.prop("OpticalBlank").toBool();
 
                 const UDisks2::OpticalDisc disc(const_cast<Device *>(this));
@@ -655,7 +638,7 @@ QString Device::icon() const
                         return "media-optical-blu-ray";
                     }
                 }
-
+#endif
                 // fallback for every other optical disc
                 return "media-optical";
             }
@@ -786,7 +769,7 @@ bool Device::isPartitionTable() const
 
 bool Device::isStorageVolume() const
 {
-    return isPartition() || isPartitionTable() || isStorageAccess() || isOpticalDisc();
+    return isPartition() || isPartitionTable() || isStorageAccess();
 }
 
 bool Device::isStorageAccess() const
@@ -799,6 +782,7 @@ bool Device::isDrive() const
     return hasInterface(QStringLiteral(UD2_DBUS_INTERFACE_DRIVE));
 }
 
+#if 0
 bool Device::isOpticalDrive() const
 {
     return isDrive() && !prop("MediaCompatibility").toStringList().filter("optical_").isEmpty();
@@ -825,6 +809,7 @@ bool Device::mightBeOpticalDisc() const
     Device drive(drv);
     return drive.isOpticalDrive();
 }
+#endif
 
 bool Device::isMounted() const
 {

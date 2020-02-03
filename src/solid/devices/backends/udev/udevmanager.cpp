@@ -126,9 +126,6 @@ UDevManager::UDevManager(QObject *parent)
     connect(d->m_client, SIGNAL(deviceRemoved(UdevQt::Device)), this, SLOT(slotDeviceRemoved(UdevQt::Device)));
 
     d->m_supportedInterfaces << Solid::DeviceInterface::GenericInterface
-                             << Solid::DeviceInterface::Processor
-                             << Solid::DeviceInterface::Camera
-                             << Solid::DeviceInterface::PortableMediaPlayer
                              << Solid::DeviceInterface::Block
                              ;
 }
@@ -183,24 +180,7 @@ QStringList UDevManager::devicesFromQuery(const QString &parentUdi,
     UdevQt::DeviceList deviceList;
 
     // Already limit the number of devices we query and have to create wrapper items for here
-    if (type == Solid::DeviceInterface::Processor) {
-        deviceList = d->m_client->devicesBySubsystem(QStringLiteral("processor"))
-                   + d->m_client->devicesBySubsystem(QStringLiteral("cpu"));
-    } else if (type == Solid::DeviceInterface::Camera) {
-        deviceList = d->m_client->devicesBySubsystemsAndProperties({
-            QStringLiteral("usb"),
-        }, {
-            {QStringLiteral("ID_GPHOTO2"), QStringLiteral("*")} // match any
-        });
-    } else if (type == Solid::DeviceInterface::PortableMediaPlayer) {
-        deviceList = d->m_client->devicesBySubsystemsAndProperties({
-            QStringLiteral("usb"),
-        }, {
-            {QStringLiteral("ID_MEDIA_PLAYER"), QStringLiteral("*")} // match any
-        });
-    } else {
         deviceList = d->m_client->allDevices();
-    }
 
     for (const UdevQt::Device &dev : qAsConst(deviceList)) {
         UDevDevice device(dev);

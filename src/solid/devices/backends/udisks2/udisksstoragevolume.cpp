@@ -85,7 +85,7 @@ bool StorageVolume::isIgnored() const
     }
 
     if (m_device->isSwap() ||
-            ((usg == Solid::StorageVolume::Unused || usg == Solid::StorageVolume::Other || usg == Solid::StorageVolume::PartitionTable) && !m_device->isOpticalDisc())) {
+            ((usg == Solid::StorageVolume::Unused || usg == Solid::StorageVolume::Other || usg == Solid::StorageVolume::PartitionTable))) {
         return true;
     }
 

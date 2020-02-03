@@ -52,16 +52,12 @@ public:
      * This enum type defines the type of drive a storage device can be.
      *
      * - HardDisk : A hard disk
-     * - CdromDrive : An optical drive
-     * - Floppy : A floppy disk drive
-     * - Tape : A tape drive
-     * - CompactFlash : A Compact Flash card reader
      * - MemoryStick : A Memory Stick card reader
      * - SmartMedia : A Smart Media card reader
      * - SdMmc : A SecureDigital/MultiMediaCard card reader
      * - Xd : A xD card reader
      */
-    enum DriveType { HardDisk, CdromDrive, Floppy, Tape, CompactFlash, MemoryStick, SmartMedia, SdMmc, Xd };
+    enum DriveType { HardDisk, MemoryStick, SmartMedia, SdMmc, Xd };
     Q_ENUM(DriveType)
 
 private:

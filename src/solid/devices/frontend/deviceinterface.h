@@ -43,13 +43,11 @@ public:
      * - OpticalDisc : An optical disc
      * - Camera : A digital camera
      * - PortableMediaPlayer: A portable media player
-     * - NetworkShare: A network share interface
      */
-    enum Type { Unknown = 0, GenericInterface = 1, Processor = 2,
+    enum Type { Unknown = 0, GenericInterface = 1,
                 Block = 3, StorageAccess = 4, StorageDrive = 5,
-                OpticalDrive = 6, StorageVolume = 7, OpticalDisc = 8,
-                Camera = 9, PortableMediaPlayer = 10,
-                Battery = 12, NetworkShare = 14, Last = 0xffff
+                StorageVolume = 7,
+                Last = 0xffff
               };
     Q_ENUM(Type)
 

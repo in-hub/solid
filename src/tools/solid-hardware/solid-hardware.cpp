@@ -18,7 +18,7 @@
 
 #include <solid/device.h>
 #include <solid/genericinterface.h>
-#include <solid/opticaldrive.h>
+#include <solid/storageaccess.h>
 
 #include <iostream>
 #include <solid/devicenotifier.h>
@@ -366,11 +366,6 @@ bool SolidHardware::hwVolumeCall(SolidHardware::VolumeCallType type, const QStri
         cerr << tr("Error: %1 does not have the interface StorageAccess.").arg(udi) << endl;
         return false;
     }
-    else if (!device.is<Solid::OpticalDrive>() && type==Eject)
-    {
-        cerr << tr("Error: %1 does not have the interface OpticalDrive.").arg(udi) << endl;
-        return false;
-    }
 
     switch(type)
     {
@@ -389,11 +384,6 @@ bool SolidHardware::hwVolumeCall(SolidHardware::VolumeCallType type, const QStri
         device.as<Solid::StorageAccess>()->teardown();
         break;
     case Eject:
-        connect(device.as<Solid::OpticalDrive>(),
-                SIGNAL(ejectDone(Solid::ErrorType,QVariant,QString)),
-                this,
-                SLOT(slotStorageResult(Solid::ErrorType,QVariant)));
-        device.as<Solid::OpticalDrive>()->eject();
         break;
     }
 

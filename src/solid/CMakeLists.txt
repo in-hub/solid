@@ -47,18 +47,11 @@ ecm_generate_headers(Solid_CamelCase_HEADERS
   DeviceNotifier
   DeviceInterface
   GenericInterface
-  Processor
   Block
   StorageAccess
   StorageDrive
-  OpticalDrive
   StorageVolume
-  OpticalDisc
-  Camera
-  PortableMediaPlayer
-  Battery
   Predicate
-  NetworkShare
   SolidNamespace
 
   RELATIVE devices/frontend

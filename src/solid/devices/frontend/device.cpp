@@ -16,28 +16,14 @@
 
 #include <solid/genericinterface.h>
 #include <solid/devices/ifaces/genericinterface.h>
-#include <solid/processor.h>
-#include <solid/devices/ifaces/processor.h>
 #include <solid/block.h>
 #include <solid/devices/ifaces/block.h>
 #include <solid/storageaccess.h>
 #include <solid/devices/ifaces/storageaccess.h>
 #include <solid/storagedrive.h>
 #include <solid/devices/ifaces/storagedrive.h>
-#include <solid/opticaldrive.h>
-#include <solid/devices/ifaces/opticaldrive.h>
 #include <solid/storagevolume.h>
 #include <solid/devices/ifaces/storagevolume.h>
-#include <solid/opticaldisc.h>
-#include <solid/devices/ifaces/opticaldisc.h>
-#include <solid/camera.h>
-#include <solid/devices/ifaces/camera.h>
-#include <solid/portablemediaplayer.h>
-#include <solid/devices/ifaces/portablemediaplayer.h>
-#include <solid/networkshare.h>
-#include <solid/devices/ifaces/networkshare.h>
-#include <solid/battery.h>
-#include <solid/devices/ifaces/battery.h>
 
 Solid::Device::Device(const QString &udi)
 {
@@ -149,9 +135,6 @@ const Solid::DeviceInterface *Solid::Device::asDeviceInterface(const DeviceInter
             case DeviceInterface::GenericInterface:
                 iface = deviceinterface_cast(Ifaces::GenericInterface, GenericInterface, dev_iface);
                 break;
-            case DeviceInterface::Processor:
-                iface = deviceinterface_cast(Ifaces::Processor, Processor, dev_iface);
-                break;
             case DeviceInterface::Block:
                 iface = deviceinterface_cast(Ifaces::Block, Block, dev_iface);
                 break;
@@ -161,26 +144,8 @@ const Solid::DeviceInterface *Solid::Device::asDeviceInterface(const DeviceInter
             case DeviceInterface::StorageDrive:
                 iface = deviceinterface_cast(Ifaces::StorageDrive, StorageDrive, dev_iface);
                 break;
-            case DeviceInterface::OpticalDrive:
-                iface = deviceinterface_cast(Ifaces::OpticalDrive, OpticalDrive, dev_iface);
-                break;
             case DeviceInterface::StorageVolume:
                 iface = deviceinterface_cast(Ifaces::StorageVolume, StorageVolume, dev_iface);
-                break;
-            case DeviceInterface::OpticalDisc:
-                iface = deviceinterface_cast(Ifaces::OpticalDisc, OpticalDisc, dev_iface);
-                break;
-            case DeviceInterface::Camera:
-                iface = deviceinterface_cast(Ifaces::Camera, Camera, dev_iface);
-                break;
-            case DeviceInterface::PortableMediaPlayer:
-                iface = deviceinterface_cast(Ifaces::PortableMediaPlayer, PortableMediaPlayer, dev_iface);
-                break;
-            case DeviceInterface::Battery:
-                iface = deviceinterface_cast(Ifaces::Battery, Battery, dev_iface);
-                break;
-            case DeviceInterface::NetworkShare:
-                iface = deviceinterface_cast(Ifaces::NetworkShare, NetworkShare, dev_iface);
                 break;
             case DeviceInterface::Unknown:
             case DeviceInterface::Last:

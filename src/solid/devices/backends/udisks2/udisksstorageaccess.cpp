@@ -171,13 +171,11 @@ void StorageAccess::slotDBusReply(const QDBusMessage & /*reply*/)
                 QDBusConnection c = QDBusConnection::systemBus();
 
                 if (drive.prop("MediaRemovable").toBool() &&
-                        drive.prop("MediaAvailable").toBool() &&
-                        !m_device->isOpticalDisc()) { // optical drives have their Eject method
+                        drive.prop("MediaAvailable").toBool()) {
                     QDBusMessage msg = QDBusMessage::createMethodCall(UD2_DBUS_SERVICE, drivePath, UD2_DBUS_INTERFACE_DRIVE, "Eject");
                     msg << QVariantMap();   // options, unused now
                     c.call(msg, QDBus::NoBlock);
-                } else if (drive.prop("CanPowerOff").toBool() &&
-                        !m_device->isOpticalDisc()) { // avoid disconnecting optical drives from the bus
+                } else if (drive.prop("CanPowerOff").toBool()) { // avoid disconnecting optical drives from the bus
                     qCDebug(UDISKS2) << "Drive can power off:" << drivePath;
                     QDBusMessage msg = QDBusMessage::createMethodCall(UD2_DBUS_SERVICE, drivePath, UD2_DBUS_INTERFACE_DRIVE, "PowerOff");
                     msg << QVariantMap();   // options, unused now

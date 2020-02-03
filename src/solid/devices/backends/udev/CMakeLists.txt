@@ -3,10 +3,6 @@ set(backend_sources
     udevmanager.cpp
     udevdeviceinterface.cpp
     udevgenericinterface.cpp
-    cpuinfo.cpp
-    udevprocessor.cpp
-    udevcamera.cpp
-    udevportablemediaplayer.cpp
     udevblock.cpp
     ../shared/udevqtclient.cpp
     ../shared/udevqtdevice.cpp

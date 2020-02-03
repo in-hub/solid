@@ -60,9 +60,11 @@ public:
     bool isStorageVolume() const;
     bool isStorageAccess() const;
     bool isDrive() const;
+#if 0
     bool isOpticalDrive() const;
     bool isOpticalDisc() const;
     bool mightBeOpticalDisc() const;
+#endif
     bool isMounted() const;
     bool isEncryptedContainer() const;
     bool isEncryptedCleartext() const;

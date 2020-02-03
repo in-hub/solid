@@ -30,8 +30,6 @@ Manager::Manager(QObject *parent)
             << Solid::DeviceInterface::Block
             << Solid::DeviceInterface::StorageAccess
             << Solid::DeviceInterface::StorageDrive
-            << Solid::DeviceInterface::OpticalDrive
-            << Solid::DeviceInterface::OpticalDisc
             << Solid::DeviceInterface::StorageVolume;
 
     qDBusRegisterMetaType<QList<QDBusObjectPath> >();
@@ -141,6 +139,7 @@ void Manager::introspect(const QString &path, bool checkOptical)
                 const QString udi = path + "/" + nodeElem.attribute("name");
 
                 if (checkOptical) {
+#if 0
                     Device device(udi);
                     if (device.mightBeOpticalDisc()) {
                         QDBusConnection::systemBus().connect(UD2_DBUS_SERVICE, udi, DBUS_INTERFACE_PROPS, "PropertiesChanged", this,
@@ -149,6 +148,7 @@ void Manager::introspect(const QString &path, bool checkOptical)
                             continue;
                         }
                     }
+#endif
                 }
 
                 m_deviceCache.append(udi);
@@ -178,6 +178,7 @@ void Manager::slotInterfacesAdded(const QDBusObjectPath &object_path, const Vari
         return;
     }
 
+#if 0
     qCDebug(UDISKS2) << udi << "has new interfaces:" << interfaces_and_properties.keys();
 
     // If device gained an org.freedesktop.UDisks2.Block interface, we
@@ -191,6 +192,7 @@ void Manager::slotInterfacesAdded(const QDBusObjectPath &object_path, const Vari
                 SLOT(slotMediaChanged(QDBusMessage)));
         }
     }
+#endif
 
     updateBackend(udi);
 

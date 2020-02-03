@@ -53,11 +53,7 @@ Solid::StorageDrive::DriveType StorageDrive::driveType() const
 {
     const QStringList mediaTypes = m_device->prop("MediaCompatibility").toStringList();
 
-    if (m_device->isOpticalDrive()) { // optical disks
-        return Solid::StorageDrive::CdromDrive;
-    } else if (mediaTypes.contains("floppy")) {
-        return Solid::StorageDrive::Floppy;
-    }
+    if (false) { }
 #if 0 // TODO add to Solid
     else if (mediaTypes.contains("floppy_jaz")) {
         return Solid::StorageDrive::Jaz;
@@ -67,9 +63,7 @@ Solid::StorageDrive::DriveType StorageDrive::driveType() const
         return Solid::StorageDrive::Flash;
     }
 #endif
-    else if (mediaTypes.contains("flash_cf")) {
-        return Solid::StorageDrive::CompactFlash;
-    } else if (mediaTypes.contains("flash_ms")) {
+    else if (mediaTypes.contains("flash_ms")) {
         return Solid::StorageDrive::MemoryStick;
     } else if (mediaTypes.contains("flash_sm")) {
         return Solid::StorageDrive::SmartMedia;

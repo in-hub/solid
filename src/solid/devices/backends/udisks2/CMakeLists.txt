@@ -5,8 +5,6 @@ set(backend_sources
     udisksblock.cpp
     udisksstoragevolume.cpp
     udisksdeviceinterface.cpp
-    udisksopticaldisc.cpp
-    udisksopticaldrive.cpp
     udisksstoragedrive.cpp
     udisksstorageaccess.cpp
     udisksgenericinterface.cpp

@@ -7,11 +7,7 @@
 #include "udevdevice.h"
 
 #include "udevgenericinterface.h"
-#include "udevprocessor.h"
-#include "udevcamera.h"
-#include "udevportablemediaplayer.h"
 #include "udevblock.h"
-#include "cpuinfo.h"
 
 #include <sys/socket.h>
 #include <linux/if_arp.h>
@@ -43,11 +39,6 @@ QString UDevDevice::vendor() const
 {
     QString vendor = m_device.sysfsProperty("manufacturer").toString();
     if (vendor.isEmpty()) {
-        if (queryDeviceInterface(Solid::DeviceInterface::Processor)) {
-            // sysfs doesn't have anything useful here
-            vendor = extractCpuVendor(deviceNumber());
-        }
-
         if (vendor.isEmpty()) {
             vendor = m_device.deviceProperty("ID_VENDOR").toString().replace('_', ' ');
         }
@@ -59,11 +50,6 @@ QString UDevDevice::product() const
 {
     QString product = m_device.sysfsProperty("product").toString();
     if (product.isEmpty()) {
-        if (queryDeviceInterface(Solid::DeviceInterface::Processor)) {
-            // sysfs doesn't have anything useful here
-            product = extractCpuModel(deviceNumber());
-        }
-
         if (product.isEmpty()) {
             product = m_device.deviceProperty("ID_MODEL").toString().replace('_', ' ');
         }
@@ -75,15 +61,6 @@ QString UDevDevice::icon() const
 {
     if (parentUdi().isEmpty()) {
         return QLatin1String("computer");
-    }
-
-    if (queryDeviceInterface(Solid::DeviceInterface::Processor)) {
-        return QLatin1String("cpu");
-    } else if (queryDeviceInterface(Solid::DeviceInterface::PortableMediaPlayer)) {
-        // TODO: check out special cases like iPod
-        return QLatin1String("multimedia-player");
-    } else if (queryDeviceInterface(Solid::DeviceInterface::Camera)) {
-        return QLatin1String("camera-photo");
     }
 
     return QString();
@@ -100,24 +77,6 @@ QString UDevDevice::description() const
         return tr("Computer");
     }
 
-    if (queryDeviceInterface(Solid::DeviceInterface::Processor)) {
-        return tr("Processor");
-    } else if (queryDeviceInterface(Solid::DeviceInterface::PortableMediaPlayer)) {
-        /*
-         * HACK: As Media player is very generic return the device product instead
-         *       until we can return the Name.
-         */
-        const PortableMediaPlayer *player = new PortableMediaPlayer(const_cast<UDevDevice *>(this));
-        if (player->supportedProtocols().contains("mtp")) {
-            return product();
-        } else {
-            // TODO: check out special cases like iPod
-            return tr("Portable Media Player");
-        }
-    } else if (queryDeviceInterface(Solid::DeviceInterface::Camera)) {
-        return tr("Camera");
-    }
-
     return QString();
 }
 
@@ -126,15 +85,6 @@ bool UDevDevice::queryDeviceInterface(const Solid::DeviceInterface::Type &type) 
     switch (type) {
     case Solid::DeviceInterface::GenericInterface:
         return true;
-
-    case Solid::DeviceInterface::Processor:
-        return m_device.subsystem() == QLatin1String("cpu");
-
-    case Solid::DeviceInterface::Camera:
-        return m_device.subsystem() == QLatin1String("usb") && property("ID_GPHOTO2").isValid();
-
-    case Solid::DeviceInterface::PortableMediaPlayer:
-        return m_device.subsystem() == QLatin1String("usb") && property("ID_MEDIA_PLAYER").isValid();
 
     case Solid::DeviceInterface::Block:
         return !property("MAJOR").toString().isEmpty();
@@ -153,15 +103,6 @@ QObject *UDevDevice::createDeviceInterface(const Solid::DeviceInterface::Type &t
     switch (type) {
     case Solid::DeviceInterface::GenericInterface:
         return new GenericInterface(this);
-
-    case Solid::DeviceInterface::Processor:
-        return new Processor(this);
-
-    case Solid::DeviceInterface::Camera:
-        return new Camera(this);
-
-    case Solid::DeviceInterface::PortableMediaPlayer:
-        return new PortableMediaPlayer(this);
 
     case Solid::DeviceInterface::Block:
         return new Block(this);

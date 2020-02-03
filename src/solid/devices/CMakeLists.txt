@@ -45,37 +45,22 @@ set(solid_LIB_SRCS
     devices/frontend/devicemanager.cpp
     devices/frontend/deviceinterface.cpp
     devices/frontend/genericinterface.cpp
-    devices/frontend/processor.cpp
     devices/frontend/block.cpp
     devices/frontend/storagedrive.cpp
-    devices/frontend/opticaldrive.cpp
     devices/frontend/storagevolume.cpp
-    devices/frontend/opticaldisc.cpp
     devices/frontend/storageaccess.cpp
-    devices/frontend/camera.cpp
-    devices/frontend/portablemediaplayer.cpp
-    devices/frontend/networkshare.cpp
-    devices/frontend/battery.cpp
     devices/frontend/predicate.cpp
 
-    devices/ifaces/battery.cpp
     devices/ifaces/block.cpp
-    devices/ifaces/camera.cpp
-    devices/ifaces/opticaldrive.cpp
     devices/ifaces/device.cpp
     devices/ifaces/deviceinterface.cpp
     devices/ifaces/devicemanager.cpp
     devices/ifaces/genericinterface.cpp
-    devices/ifaces/networkshare.cpp
-    devices/ifaces/opticaldisc.cpp
-    devices/ifaces/portablemediaplayer.cpp
-    devices/ifaces/processor.cpp
     devices/ifaces/storagedrive.cpp
     devices/ifaces/storagevolume.cpp
     devices/ifaces/storageaccess.cpp
 
     devices/backends/shared/rootdevice.cpp
-    devices/backends/shared/cpufeatures.cpp
 )
 
 ecm_qt_declare_logging_category(solid_LIB_SRCS
